@@ -1,11 +1,14 @@
+# Breast Cancer data set obtained from:
 # https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer/
 # Filename: breast-cancer.data
 getwd()
 setwd("src")
-#setwd("D:\\Projects\\Biz_Entrep_Startup_Ventures\\NCDataPalooza_2015_OpenKPI\\code_git\\git\\OpenKPI\\src")
 getwd()
 
+#read in the breast cancer data
 bcdf = read.csv("..\\data\\breast-cancer.data", head=FALSE,sep=",", stringsAsFactors=TRUE)
+
+#examine the breast cancer data frame
 head(bcdf)
 str(bcdf)
 
@@ -23,22 +26,30 @@ str(bcdf)
 # 9. breast-quad: left-up, left-low, right-up,  right-low, central.
 # 10. irradiat:  yes, no.
 
+#since the original data set does not contain column headings, add them to the data frame
 names(bcdf) = c("Class", "age", "menopause","tumor-size", "inv-nodes", "node-caps", "deg-malig", "breast", "breast-quad", "irradiat" )
 head(bcdf)
 str(bcdf)
 dim(bcdf)
-hist(bcdf$Class)
-hist(bcdf$"deg-malig")
 
+#histogram of first variable
+hist(bcdf$Class)# does not work because not numeric
+
+#histogram of a numeric variable
+hist(bcdf$"deg-malig")#works
+
+#convert to numeric and then plot a histogram
 as.numeric(bcdf$Class)
 hist(as.numeric(bcdf$Class))
+
+#"node-caps" variable has unknown values based on str(bcdf) - examination of the data frame
+#plot histogram of this variables 
 hist(as.numeric(bcdf$"node-caps"), main="Histogram of node-caps", xlab="node-caps")
 
-
-
-bcdf_filtered = subset(bcdf, "node-caps" != "?")
+#since the "node-caps" variable has "?", which represent unknown values, filter these out
 bcdf_filtered = bcdf[bcdf$"node-caps" != "?", ]
 
+#examine the filterted data set to make sure the "?" values have been removed
 str(bcdf_filtered)
 dim(bcdf_filtered)
 
